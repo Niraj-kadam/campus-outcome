@@ -17,7 +17,7 @@ After running the pipeline once, start the included website from this folder:
 ```bash
 python web/app.py
 ```
-Open `http://127.0.0.1:8000` in a browser. The dashboard shows live summary numbers and placement rates, embeds the generated analysis figures, and offers an estimate form using the saved decision tree. Keep the server running while using the page. The estimate is only a course-project demonstration because the dataset appears synthetic and rule-generated.
+Open `http://127.0.0.1:8000` in a browser. The dashboard shows live summary numbers and placement rates, embeds the generated analysis figures, explores Apriori rules to placed outcomes, explains the decision tree metrics/rules/features, and offers an estimate form using the saved model. Keep the server running while using the page. Estimates are only a course-project demonstration because the dataset appears synthetic and rule-generated.
 
 ### Optional web scraping
 The scraper is deliberately excluded from the standard run because it needs a site chosen by you. Check the site's terms and `robots.txt`, then run `python src/09_web_scraping.py https://example.org/page --selector 'table tr'`. It saves extracted table rows to `outputs/tables/scraped_data.csv`.

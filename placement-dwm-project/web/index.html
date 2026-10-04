@@ -22,6 +22,7 @@
     footer{color:#8792a5;font-size:11px;padding:20px 2px}.loading{color:var(--muted);font-size:13px}
     @media(max-width:980px){.shell{grid-template-columns:1fr}.sidebar{padding:15px 20px;gap:14px}.nav{display:flex;overflow:auto}.side-label,.side-note{display:none}.brand{margin-bottom:3px}.nav a{white-space:nowrap}main{padding:25px 22px 45px}.metrics{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:650px){.topline{margin-bottom:24px}.hero{display:block}.date-pill{display:inline-block;margin-top:15px}.grid{grid-template-columns:1fr}.metrics{gap:10px}.metric{padding:15px}.metric-value{font-size:26px}.figures{grid-template-columns:1fr}.bar-row{grid-template-columns:75px 1fr 38px}.panel{padding:17px}.predict{grid-template-columns:1fr 1fr}}
+    .rule-controls{display:flex;align-items:center;gap:10px;margin-bottom:13px}.rule-controls label{font-size:12px;color:var(--muted)}.rule-controls input{width:95px;border:1px solid var(--line);border-radius:7px;padding:7px 9px;font:inherit}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:9px}.rules-table{width:100%;border-collapse:collapse;font-size:12px;min-width:620px}.rules-table th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;background:#f8f9fc;padding:10px}.rules-table td{padding:10px;border-top:1px solid var(--line)}.rules-table td:first-child{max-width:430px}.rules-table .number{text-align:right;font-variant-numeric:tabular-nums}.mining-top{display:flex;gap:10px;flex-wrap:wrap;margin:-3px 0 15px}.mining-pill{background:#f3f5fa;border-radius:7px;padding:6px 9px;font-size:11px;color:#58647a}.tree-metrics{display:flex;gap:11px;margin:0 0 15px}.tree-stat{background:#f4f6fb;border-radius:9px;padding:11px 14px;flex:1}.tree-stat strong{display:block;font-size:21px;letter-spacing:-.03em}.tree-stat span{font-size:10px;color:var(--muted)}.importance-list{display:grid;gap:10px}.importance-row{display:grid;grid-template-columns:minmax(105px,155px) 1fr 45px;gap:9px;align-items:center;font-size:11px}.importance-name{color:#59667c}.tree-figure img{width:100%;max-height:250px;object-fit:contain;background:#fbfcfe}.rules-detail{margin-top:14px;border:1px solid var(--line);border-radius:9px;padding:11px 13px}.rules-detail summary{cursor:pointer;font-size:12px;font-weight:650}.rules-detail pre{white-space:pre-wrap;overflow:auto;max-height:310px;background:#f7f8fb;padding:12px;border-radius:7px;font-size:11px;color:#42506a}
   </style>
 </head>
 <body>
@@ -30,7 +31,8 @@
     <div class="brand"><div class="brand-mark">C</div><div>Campus Outcomes</div></div>
     <div><p class="side-label">Workspace</p><nav class="nav">
       <a class="active" href="#overview"><span>◫</span>Overview</a><a href="#drivers"><span>⌁</span>Placement drivers</a>
-      <a href="#explore"><span>▧</span>Data explorer</a><a href="#estimate"><span>✳</span>Student estimate</a>
+      <a href="#explore"><span>▧</span>Data explorer</a><a href="#apriori"><span>◇</span>Apriori rules</a>
+      <a href="#decision-tree"><span>⌘</span>Decision tree</a><a href="#estimate"><span>✳</span>Student estimate</a>
     </nav></div>
     <div class="side-note"><strong>Placement Analytics</strong>Data warehouse &amp; mining project<br>Academic outcomes dashboard</div>
   </aside>
@@ -55,6 +57,26 @@
       <figure class="figure"><img src="/figures/eda_03_placement_rate_by_factor.png" alt="Placement by student factors"><figcaption>Placement rate by student factors</figcaption></figure>
       <figure class="figure"><img src="/figures/km_elbow_silhouette.png" alt="K-means elbow and silhouette"><figcaption>K-means elbow and silhouette</figcaption></figure>
     </div></section>
+    <section class="grid" id="apriori">
+      <article class="panel" style="grid-column:1/-1"><div class="panel-head"><div><h2>Apriori association rule explorer</h2><div class="sub">Frequent student profiles associated with a placed outcome</div></div><span class="tag">Apriori · association mining</span></div>
+        <div class="mining-top"><span class="mining-pill">Minimum support: <b id="ap-support">3%</b></span><span class="mining-pill">Minimum confidence: <b id="ap-confidence">30%</b></span><span class="mining-pill"><b id="rule-count">—</b> rules to “Placed”</span></div>
+        <div class="rule-controls"><label for="min-lift">Show rules with lift at least</label><input id="min-lift" type="number" min="0" step="0.1" value="1"></div>
+        <div class="table-wrap"><table class="rules-table"><thead><tr><th>Student profile (antecedents)</th><th class="number">Support</th><th class="number">Confidence</th><th class="number">Lift</th></tr></thead><tbody id="rules-body"><tr><td colspan="4" class="loading">Loading association rules…</td></tr></tbody></table></div>
+        <p class="fine">Support is the share of all students matching the profile. Confidence is the placement rate within that profile. Lift compares it with the overall placement rate. Sorted by lift, highest first.</p>
+      </article>
+    </section>
+    <section class="grid" id="decision-tree">
+      <article class="panel"><div class="panel-head"><div><h2>Decision tree performance</h2><div class="sub">Held-out test set; salary excluded to prevent target leakage</div></div><span class="tag">Classification</span></div>
+        <div class="tree-metrics"><div class="tree-stat"><strong id="tree-accuracy">—</strong><span>Test accuracy</span></div><div class="tree-stat"><strong id="tree-precision">—</strong><span>Placed precision</span></div><div class="tree-stat"><strong id="tree-recall">—</strong><span>Placed recall</span></div></div>
+        <div class="sub" style="margin-bottom:10px">Most influential features</div><div id="importance-list" class="importance-list"><span class="loading">Loading model results…</span></div>
+        <details class="rules-detail"><summary>View learned decision rules</summary><pre id="tree-rules">Loading…</pre></details>
+        <div class="notice">Perfect test scores reflect rule-generated patterns in this dataset; they do not show that the model will generalize to real placement data.</div>
+      </article>
+      <article class="panel"><div class="panel-head"><div><h2>Model structure</h2><div class="sub">Learned from the training split</div></div><span class="tag">Depth limited</span></div>
+        <figure class="figure tree-figure"><img src="/figures/dt_tree.png" alt="Decision tree visualization"><figcaption>Decision tree diagram (top levels shown)</figcaption></figure>
+        <figure class="figure tree-figure" style="margin-top:13px"><img src="/figures/dt_confusion_matrix.png" alt="Decision tree confusion matrix"><figcaption>Confusion matrix on the test split</figcaption></figure>
+      </article>
+    </section>
     <section class="grid" id="estimate">
       <article class="panel"><div class="panel-head"><div><h2>Student placement estimate</h2><div class="sub">Try the saved decision tree with a student profile</div></div><span class="tag">Decision tree</span></div>
         <form id="predict-form" class="predict">
@@ -103,6 +125,35 @@ async function loadDashboard(){
   }catch(e){document.querySelectorAll('.loading').forEach(x=>x.textContent=e.message)}
 }
 function bars(id,labels,values){const root=document.getElementById(id);root.innerHTML='';labels.forEach((label,i)=>{const row=document.createElement('div');row.className='bar-row';row.innerHTML=`<span class="bar-name">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(0,Math.min(values[i],100))}%"></div></div><span class="bar-value">${values[i]}%</span>`;root.appendChild(row)})}
+let placementRules=[];
+async function loadMining(){
+  const response=await fetch('/api/mining');if(!response.ok)throw new Error('Mining outputs are unavailable');
+  const data=await response.json();placementRules=data.apriori.rules||[];
+  document.getElementById('ap-support').textContent=(data.apriori.support*100).toFixed(0)+'%';
+  document.getElementById('ap-confidence').textContent=(data.apriori.confidence*100).toFixed(0)+'%';
+  document.getElementById('rule-count').textContent=placementRules.length;
+  renderRules();
+  const tree=data.tree;
+  document.getElementById('tree-accuracy').textContent=tree.accuracy==null?'—':(tree.accuracy*100).toFixed(0)+'%';
+  document.getElementById('tree-precision').textContent=tree.placed_precision==null?'—':(tree.placed_precision*100).toFixed(0)+'%';
+  document.getElementById('tree-recall').textContent=tree.placed_recall==null?'—':(tree.placed_recall*100).toFixed(0)+'%';
+  document.getElementById('tree-rules').textContent=tree.rules_text;
+  const max=Math.max(...tree.importance.map(x=>x.importance),0.0001),root=document.getElementById('importance-list');root.replaceChildren();
+  tree.importance.forEach(item=>{const row=document.createElement('div');row.className='importance-row';
+    const name=document.createElement('span');name.className='importance-name';name.textContent=item.feature;
+    const track=document.createElement('div');track.className='bar-track';const fill=document.createElement('div');fill.className='bar-fill';fill.style.width=(item.importance/max*100)+'%';track.appendChild(fill);
+    const val=document.createElement('span');val.className='bar-value';val.textContent=item.importance.toFixed(3);row.append(name,track,val);root.appendChild(row)});
+}
+function renderRules(){
+  const min=Number(document.getElementById('min-lift').value)||0;
+  const rows=placementRules.filter(rule=>Number(rule.lift)>=min).sort((a,b)=>Number(b.lift)-Number(a.lift));
+  const body=document.getElementById('rules-body');body.replaceChildren();
+  if(!rows.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=4;td.className='loading';td.textContent='No rules meet this lift threshold.';tr.appendChild(td);body.appendChild(tr);return}
+  rows.forEach(rule=>{const tr=document.createElement('tr');
+    [rule.antecedents,(Number(rule.support)*100).toFixed(1)+'%',(Number(rule.confidence)*100).toFixed(1)+'%',Number(rule.lift).toFixed(2)].forEach((value,index)=>{const td=document.createElement('td');td.textContent=value;if(index>0)td.className='number';tr.appendChild(td)});body.appendChild(tr)});
+}
+document.getElementById('min-lift').addEventListener('input',renderRules);
+loadMining().catch(error=>{document.getElementById('rules-body').innerHTML=`<tr><td colspan="4" class="loading">${error.message}</td></tr>`;document.getElementById('tree-rules').textContent=error.message});
 document.getElementById('predict-form').addEventListener('submit',async event=>{
   event.preventDefault();const result=document.getElementById('result');result.classList.add('show');result.textContent='Calculating…';
   const values=Object.fromEntries(new FormData(event.currentTarget).entries());for(const key in values)values[key]=Number(values[key]);

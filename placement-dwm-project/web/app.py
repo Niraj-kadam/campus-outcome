@@ -12,7 +12,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from config import CLEAN_CSV, MODEL_DIR, RAW_CSV, TARGET  # noqa: E402
+from config import CLEAN_CSV, MODEL_DIR, RAW_CSV, TABLE_DIR, TARGET  # noqa: E402
 
 WEB_DIR = Path(__file__).resolve().parent
 FEATURES = ["gender", "ssc_percentage", "hsc_percentage", "degree_percentage", "cgpa",
@@ -37,6 +37,27 @@ def dashboard_data():
     }
 
 
+def mining_data():
+    rules_path = TABLE_DIR / "apriori_rules_to_placed.csv"
+    importance_path = TABLE_DIR / "decision_tree_feature_importance.csv"
+    metrics_path = TABLE_DIR / "decision_tree_metrics.csv"
+    text_path = TABLE_DIR / "decision_tree_rules.txt"
+    rules = pd.read_csv(rules_path).fillna("").to_dict(orient="records") if rules_path.is_file() else []
+    importance = pd.read_csv(importance_path, index_col=0).iloc[:, 0] if importance_path.is_file() else pd.Series(dtype=float)
+    metrics = pd.read_csv(metrics_path, index_col=0) if metrics_path.is_file() else pd.DataFrame()
+    accuracy = float(metrics.loc["accuracy"].iloc[0]) if "accuracy" in metrics.index else None
+    placed = metrics.loc["Placed"] if "Placed" in metrics.index else pd.Series(dtype=float)
+    return {
+        "apriori": {"rules": rules, "support": 0.03, "confidence": 0.30},
+        "tree": {"accuracy": accuracy,
+                 "placed_precision": float(placed.get("precision")) if not placed.empty else None,
+                 "placed_recall": float(placed.get("recall")) if not placed.empty else None,
+                 "importance": [{"feature": str(k), "importance": round(float(v), 4)}
+                                for k, v in importance.head(10).items()],
+                 "rules_text": text_path.read_text(encoding="utf-8") if text_path.is_file() else "Run python run_all.py to generate the model outputs."},
+    }
+
+
 class Handler(BaseHTTPRequestHandler):
     def send_bytes(self, content: bytes, content_type: str, status: int = 200):
         self.send_response(status)
@@ -53,6 +74,8 @@ class Handler(BaseHTTPRequestHandler):
         path = unquote(urlparse(self.path).path)
         if path == "/api/summary":
             return self.send_json(dashboard_data())
+        if path == "/api/mining":
+            return self.send_json(mining_data())
         if path == "/":
             target = WEB_DIR / "index.html"
         elif path.startswith("/figures/"):
