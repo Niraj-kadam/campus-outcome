@@ -1,0 +1,19 @@
+|--- backlogs <= 2.50
+|   |--- technical_skill_score <= 59.50
+|   |   |--- class: 0
+|   |--- technical_skill_score >  59.50
+|   |   |--- cgpa <= 6.99
+|   |   |   |--- class: 0
+|   |   |--- cgpa >  6.99
+|   |   |   |--- soft_skill_score <= 54.50
+|   |   |   |   |--- class: 0
+|   |   |   |--- soft_skill_score >  54.50
+|   |   |   |   |--- hsc_percentage <= 51.50
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- hsc_percentage >  51.50
+|   |   |   |   |   |--- class: 1
+|--- backlogs >  2.50
+|   |--- attendance_percentage <= 60.50
+|   |   |--- class: 0
+|   |--- attendance_percentage >  60.50
+|   |   |--- class: 0

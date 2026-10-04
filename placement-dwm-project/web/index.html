@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2d">
+  <title>Campus Outcomes — Placement Analytics</title>
+  <style>
+    :root{--navy:#101a2d;--ink:#18243a;--muted:#66738a;--line:#e7ebf1;--paper:#f4f6fa;--blue:#315de8;--mint:#bdebd8;--white:#fff}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    .shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.sidebar{background:var(--navy);color:white;padding:30px 20px;display:flex;flex-direction:column;gap:35px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:750;font-size:16px;letter-spacing:.01em}.brand-mark{height:38px;width:38px;border-radius:12px;background:var(--mint);color:#10263b;display:grid;place-items:center;font-weight:900;font-size:18px}
+    .side-label{color:#8997ae;text-transform:uppercase;font-size:10px;letter-spacing:.15em;margin:0 12px 8px}.nav{display:grid;gap:5px}.nav a{color:#c4cede;text-decoration:none;padding:10px 12px;border-radius:9px;font-size:14px}.nav a:hover,.nav a.active{background:#26334a;color:#fff}.nav a span{display:inline-block;width:24px;color:#a8b6cb}
+    .side-note{margin-top:auto;border:1px solid #344158;background:#19253a;padding:16px;border-radius:12px;color:#c4cede;font-size:12px}.side-note strong{color:var(--mint);display:block;margin-bottom:5px}
+    main{max-width:1420px;width:100%;padding:34px 44px 60px;margin:auto}.topline{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;margin-bottom:35px}.live{display:flex;align-items:center;gap:8px}.dot{width:8px;height:8px;background:#22a977;border-radius:50%}
+    .hero{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:26px}.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);font-weight:750}.hero h1{font-size:clamp(30px,4vw,44px);letter-spacing:-.045em;line-height:1.08;margin:9px 0 10px}.hero p{color:var(--muted);margin:0;max-width:650px}.date-pill{white-space:nowrap;background:white;border:1px solid var(--line);border-radius:30px;padding:9px 14px;color:var(--muted);font-size:12px}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:26px 0}.metric,.panel{background:var(--white);border:1px solid var(--line);border-radius:14px;box-shadow:0 3px 14px #16264408}.metric{padding:19px 21px}.metric-head{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.metric-icon{color:var(--blue);background:#eef2ff;border-radius:8px;padding:3px 7px;font-weight:700}.metric-value{font-size:31px;letter-spacing:-.04em;font-weight:730;margin:10px 0 2px}.metric-foot{font-size:11px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:17px;margin:18px 0}.panel{padding:21px 22px}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:19px}.panel h2{margin:0;font-size:16px;letter-spacing:-.02em}.sub{font-size:12px;color:var(--muted);margin-top:4px}.tag{border:1px solid var(--line);border-radius:20px;padding:5px 9px;font-size:10px;color:var(--muted)}
+    .bars{display:grid;gap:13px}.bar-row{display:grid;grid-template-columns:90px 1fr 43px;align-items:center;gap:10px;font-size:12px}.bar-name{color:var(--muted)}.bar-track{height:10px;background:#eef1f6;border-radius:10px;overflow:hidden}.bar-fill{height:100%;background:var(--blue);border-radius:10px;min-width:2px;transition:width .5s}.bar-row:nth-child(2n) .bar-fill{background:#7f9af5}.bar-value{text-align:right;font-weight:700}
+    .insight{background:#eff8f4;border:1px solid #d9f0e5;border-radius:11px;padding:14px 15px;margin-top:18px;font-size:12px;color:#345c4c}.insight strong{display:block;color:#183e30;margin-bottom:3px}
+    .figures{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.figure{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}.figure img{display:block;width:100%;aspect-ratio:1.55;object-fit:contain;background:#fff}.figure figcaption{padding:10px 12px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+    .predict{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;font-size:11px;color:var(--muted);margin:0 0 5px}.field input,.field select{width:100%;height:39px;border:1px solid #dce2ec;border-radius:8px;padding:0 10px;font:inherit;color:var(--ink);background:#fff}.field input:focus,.field select:focus{outline:2px solid #c8d5ff;border-color:var(--blue)}.wide{grid-column:1/-1}.button{border:0;border-radius:9px;background:var(--navy);color:white;padding:11px 16px;font:inherit;font-weight:650;cursor:pointer}.button:hover{background:#263c66}.result{display:none;padding:14px;border-radius:10px;background:#edf2ff;color:#203c9a;font-weight:650}.result.show{display:block}.fine{font-size:11px;color:var(--muted);margin:13px 0 0}.notice{border-left:3px solid #e5a940;background:#fff8ea;color:#795718;padding:12px 14px;border-radius:0 8px 8px 0;font-size:12px;margin-top:16px}
+    footer{color:#8792a5;font-size:11px;padding:20px 2px}.loading{color:var(--muted);font-size:13px}
+    @media(max-width:980px){.shell{grid-template-columns:1fr}.sidebar{padding:15px 20px;gap:14px}.nav{display:flex;overflow:auto}.side-label,.side-note{display:none}.brand{margin-bottom:3px}.nav a{white-space:nowrap}main{padding:25px 22px 45px}.metrics{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:650px){.topline{margin-bottom:24px}.hero{display:block}.date-pill{display:inline-block;margin-top:15px}.grid{grid-template-columns:1fr}.metrics{gap:10px}.metric{padding:15px}.metric-value{font-size:26px}.figures{grid-template-columns:1fr}.bar-row{grid-template-columns:75px 1fr 38px}.panel{padding:17px}.predict{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">C</div><div>Campus Outcomes</div></div>
+    <div><p class="side-label">Workspace</p><nav class="nav">
+      <a class="active" href="#overview"><span>◫</span>Overview</a><a href="#drivers"><span>⌁</span>Placement drivers</a>
+      <a href="#explore"><span>▧</span>Data explorer</a><a href="#estimate"><span>✳</span>Student estimate</a>
+    </nav></div>
+    <div class="side-note"><strong>Placement Analytics</strong>Data warehouse &amp; mining project<br>Academic outcomes dashboard</div>
+  </aside>
+  <main>
+    <div class="topline"><div>Analytics / <b>Overview</b></div><div class="live"><i class="dot"></i> Local dataset connected</div></div>
+    <section id="overview">
+      <div class="hero"><div><div class="eyebrow">Student success intelligence</div><h1>Placement overview</h1><p>Explore academic and skill patterns behind placement outcomes, built from the project’s student dataset.</p></div><div class="date-pill">● &nbsp;Project dashboard</div></div>
+      <div class="metrics">
+        <article class="metric"><div class="metric-head">Students analysed <span class="metric-icon">▤</span></div><div class="metric-value" id="students">—</div><div class="metric-foot">Records in the source dataset</div></article>
+        <article class="metric"><div class="metric-head">Students placed <span class="metric-icon">↗</span></div><div class="metric-value" id="placed">—</div><div class="metric-foot">Successful placement outcomes</div></article>
+        <article class="metric"><div class="metric-head">Placement rate <span class="metric-icon">%</span></div><div class="metric-value" id="rate">—</div><div class="metric-foot">Placed students / all students</div></article>
+        <article class="metric"><div class="metric-head">Average salary <span class="metric-icon">₹</span></div><div class="metric-value" id="salary">—</div><div class="metric-foot">LPA, placed students only</div></article>
+      </div>
+    </section>
+    <section class="grid" id="drivers">
+      <article class="panel"><div class="panel-head"><div><h2>Placement rate by backlog count</h2><div class="sub">Share of students placed within each group</div></div><span class="tag">Academic factor</span></div><div id="backlog-bars" class="bars"><span class="loading">Loading project data…</span></div><div class="insight"><strong>Academic risk signal</strong>Backlogs are strongly associated with placement in this dataset. Use the bars as descriptive patterns, not causal evidence.</div></article>
+      <article class="panel"><div class="panel-head"><div><h2>Placement rate by CGPA</h2><div class="sub">Placement outcomes across CGPA bands</div></div><span class="tag">CGPA</span></div><div id="cgpa-bars" class="bars"><span class="loading">Loading project data…</span></div><div class="insight"><strong>Strongest tree features</strong>Backlogs, technical skill score, CGPA and soft skill score lead the saved decision tree.</div></article>
+    </section>
+    <section class="panel" id="explore" style="margin:18px 0"><div class="panel-head"><div><h2>Explore the analysis</h2><div class="sub">Figures generated by the project pipeline</div></div><span class="tag">EDA &amp; mining</span></div><div class="figures">
+      <figure class="figure"><img src="/figures/eda_01_placement_distribution.png" alt="Placement distribution chart"><figcaption>Placement distribution</figcaption></figure>
+      <figure class="figure"><img src="/figures/eda_02_correlation_heatmap.png" alt="Feature correlation heatmap"><figcaption>Feature correlation heatmap</figcaption></figure>
+      <figure class="figure"><img src="/figures/eda_03_placement_rate_by_factor.png" alt="Placement by student factors"><figcaption>Placement rate by student factors</figcaption></figure>
+      <figure class="figure"><img src="/figures/km_elbow_silhouette.png" alt="K-means elbow and silhouette"><figcaption>K-means elbow and silhouette</figcaption></figure>
+    </div></section>
+    <section class="grid" id="estimate">
+      <article class="panel"><div class="panel-head"><div><h2>Student placement estimate</h2><div class="sub">Try the saved decision tree with a student profile</div></div><span class="tag">Decision tree</span></div>
+        <form id="predict-form" class="predict">
+          <div class="field"><label for="cgpa">CGPA (0–10)</label><input id="cgpa" name="cgpa" type="number" min="0" max="10" step="0.01" value="7.5" required></div>
+          <div class="field"><label for="backlogs">Backlogs</label><input id="backlogs" name="backlogs" type="number" min="0" max="10" step="1" value="0" required></div>
+          <div class="field"><label for="technical_skill_score">Technical skill (0–100)</label><input id="technical_skill_score" name="technical_skill_score" type="number" min="0" max="100" value="75" required></div>
+          <div class="field"><label for="soft_skill_score">Soft skill (0–100)</label><input id="soft_skill_score" name="soft_skill_score" type="number" min="0" max="100" value="75" required></div>
+          <div class="field"><label for="ssc_percentage">SSC percentage</label><input id="ssc_percentage" name="ssc_percentage" type="number" min="0" max="100" value="75" required></div>
+          <div class="field"><label for="hsc_percentage">HSC percentage</label><input id="hsc_percentage" name="hsc_percentage" type="number" min="0" max="100" value="75" required></div>
+          <div class="field"><label for="degree_percentage">Degree percentage</label><input id="degree_percentage" name="degree_percentage" type="number" min="0" max="100" value="75" required></div>
+          <div class="field"><label for="entrance_exam_score">Entrance score</label><input id="entrance_exam_score" name="entrance_exam_score" type="number" min="0" max="100" value="70" required></div>
+          <div class="field"><label for="internship_count">Internships</label><input id="internship_count" name="internship_count" type="number" min="0" max="10" value="2" required></div>
+          <div class="field"><label for="live_projects">Live projects</label><input id="live_projects" name="live_projects" type="number" min="0" max="10" value="2" required></div>
+          <div class="field"><label for="work_experience_months">Work experience (months)</label><input id="work_experience_months" name="work_experience_months" type="number" min="0" max="60" value="12" required></div>
+          <div class="field"><label for="certifications">Certifications</label><input id="certifications" name="certifications" type="number" min="0" max="10" value="2" required></div>
+          <div class="field"><label for="attendance_percentage">Attendance (%)</label><input id="attendance_percentage" name="attendance_percentage" type="number" min="0" max="100" value="80" required></div>
+          <div class="field"><label for="gender">Gender</label><select id="gender" name="gender"><option value="0">Female</option><option value="1">Male</option></select></div>
+          <div class="field"><label for="extracurricular_activities">Extracurricular activities</label><select id="extracurricular_activities" name="extracurricular_activities"><option value="1">Yes</option><option value="0">No</option></select></div>
+          <div class="wide"><button class="button" type="submit">Estimate placement likelihood&nbsp; →</button></div>
+          <div class="result wide" id="result" role="status"></div>
+        </form>
+        <p class="fine">This estimate uses the saved project model and is for demonstration only. Salary is excluded from the model.</p>
+        <div class="notice">The source data appears rule-generated and produced perfect test metrics. Treat this estimate as a demonstration, not a real admissions or employment decision.</div>
+      </article>
+      <article class="panel"><div class="panel-head"><div><h2>About this project</h2><div class="sub">From the project plan</div></div><span class="tag">Data warehouse</span></div>
+        <p style="font-size:13px;color:#59667c;margin-top:0">This dashboard presents the student placement analytics pipeline: a SQLite star schema, OLAP queries, preprocessing, exploratory analysis, decision tree classification, K-means clustering, Apriori rules, and BI exports.</p>
+        <div class="insight"><strong>Model interpretation</strong>Salary is left out of model features because it is zero for unplaced students and would leak the answer.</div>
+        <div class="insight" style="background:#f3f4fb;border-color:#e4e7f4;color:#545f78"><strong style="color:#303b58">Cluster quality</strong>K-means silhouettes are low (around 0.05), so the groups are broad profiles rather than clearly separated student types.</div>
+        <p class="fine">Refresh outputs after changing the source data with <code>python run_all.py</code>, then reload this page.</p>
+      </article>
+    </section>
+    <footer>Campus Outcomes · Student Placement Analytics · Built from the local project dataset</footer>
+  </main>
+</div>
+<script>
+async function loadDashboard(){
+  try{
+    const response=await fetch('/api/summary'); if(!response.ok) throw new Error('Could not read project data');
+    const d=await response.json();
+    document.querySelector('#students').textContent=d.students.toLocaleString();
+    document.querySelector('#placed').textContent=d.placed.toLocaleString();
+    document.querySelector('#rate').textContent=d.placement_rate+'%';
+    document.querySelector('#salary').textContent='₹'+d.avg_salary.toFixed(1);
+    bars('backlog-bars',d.backlog_labels,d.backlog_rates);
+    bars('cgpa-bars',d.cgpa_labels,d.cgpa_rates);
+  }catch(e){document.querySelectorAll('.loading').forEach(x=>x.textContent=e.message)}
+}
+function bars(id,labels,values){const root=document.getElementById(id);root.innerHTML='';labels.forEach((label,i)=>{const row=document.createElement('div');row.className='bar-row';row.innerHTML=`<span class="bar-name">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(0,Math.min(values[i],100))}%"></div></div><span class="bar-value">${values[i]}%</span>`;root.appendChild(row)})}
+document.getElementById('predict-form').addEventListener('submit',async event=>{
+  event.preventDefault();const result=document.getElementById('result');result.classList.add('show');result.textContent='Calculating…';
+  const values=Object.fromEntries(new FormData(event.currentTarget).entries());for(const key in values)values[key]=Number(values[key]);
+  try{const response=await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(values)});const data=await response.json();if(!response.ok)throw new Error(data.error||'Prediction failed');result.textContent=`${data.prediction} · model probability ${data.probability}%`}catch(error){result.textContent=error.message}
+});
+loadDashboard();
+</script>
+</body>
+</html>

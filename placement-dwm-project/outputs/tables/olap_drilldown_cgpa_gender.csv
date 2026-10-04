@@ -1,0 +1,9 @@
+cgpa_band,gender,students,placement_rate_pct
+1: <6.5,Female,563,0.0
+1: <6.5,Male,563,0.0
+2: 6.5-7.5,Female,590,13.05
+2: 6.5-7.5,Male,546,12.27
+3: 7.5-8.5,Female,593,26.64
+3: 7.5-8.5,Male,590,25.42
+4: 8.5+,Female,750,25.33
+4: 8.5+,Male,805,27.83

@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+mlxtend
+joblib
+# only for the optional web scraping step
+requests
+beautifulsoup4

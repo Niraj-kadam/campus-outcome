@@ -1,0 +1,35 @@
+antecedents,support,confidence,lift
+"Backlogs=1-2, CGPA=High, Tech=High",0.048,0.813,4.694
+"Backlogs=1-2, CGPA=High, Soft=Mid",0.036,0.727,4.195
+"Backlogs=1-2, Soft=High, Tech=High",0.037,0.702,4.055
+"Backlogs=1-2, CGPA=High, Soft=High",0.042,0.698,4.03
+"Backlogs=1-2, CGPA=High, Tech=Mid",0.031,0.639,3.689
+"Backlogs=1-2, CGPA=High, Internships=3-4",0.031,0.577,3.33
+"Backlogs=1-2, CGPA=High",0.079,0.551,3.182
+"Backlogs=1-2, CGPA=High, Internships=0-1",0.032,0.546,3.151
+"CGPA=High, Soft=Mid, Tech=High",0.032,0.534,3.082
+"Backlogs=1-2, Tech=High",0.068,0.532,3.072
+"Backlogs=0, Tech=High",0.035,0.53,3.063
+"Backlogs=0, CGPA=High",0.038,0.512,2.956
+"CGPA=High, Soft=High, Tech=High",0.036,0.506,2.919
+"Backlogs=0, Soft=High",0.033,0.47,2.714
+"Backlogs=1-2, Soft=High",0.061,0.47,2.713
+"Backlogs=1-2, Soft=Mid",0.051,0.453,2.614
+"Backlogs=1-2, Tech=Mid",0.047,0.428,2.473
+"CGPA=High, Tech=High",0.07,0.4,2.308
+"Backlogs=1-2, Internships=3-4",0.046,0.379,2.185
+"Backlogs=1-2, Projects=4-5",0.04,0.372,2.15
+"Backlogs=1-2, Certs=4-5",0.038,0.366,2.113
+"CGPA=High, Soft=Mid",0.053,0.36,2.08
+"CGPA=High, Soft=High",0.062,0.358,2.069
+Backlogs=1-2,0.115,0.356,2.057
+"Backlogs=1-2, Certs=2-3",0.038,0.356,2.057
+"Backlogs=1-2, Internships=0-1",0.047,0.354,2.045
+"Backlogs=1-2, Projects=0-1",0.04,0.351,2.025
+"Backlogs=1-2, CGPA=Mid",0.036,0.347,2.006
+"Backlogs=1-2, Certs=0-1",0.038,0.347,2.005
+"Backlogs=1-2, Projects=2-3",0.034,0.345,1.995
+Backlogs=0,0.059,0.342,1.976
+"Soft=High, Tech=High",0.056,0.332,1.915
+"CGPA=High, Tech=Mid",0.047,0.331,1.908
+"Soft=Mid, Tech=High",0.045,0.328,1.896
